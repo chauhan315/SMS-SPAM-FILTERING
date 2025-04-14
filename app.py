@@ -5,21 +5,20 @@ import pandas as pd
 from transformers import pipeline
 from load_model import load_model
 
+st.set_option("server.runOnSave", False)
 
-# loading tokenizer and model
-tokenizer, model = load_model()
+@st.cache_resource
+def get_classifier():
+    tokenizer, model = load_model()
+    return pipeline("text-classification", model=model, tokenizer=tokenizer)
 
 
-# classification object
-classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
+classifier = get_classifier()
 
-
-# label mapping
 label_mapping = {"LABEL_0": "ham",
                     "LABEL_1": "spam"}
 
 
-# preprocessing function
 def preprocess_text(text):
     text = text.strip().replace("\t", "").lower()
     text = re.sub(f"[{string.punctuation}]", "", text)
