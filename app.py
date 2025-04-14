@@ -5,7 +5,7 @@ import pandas as pd
 from transformers import pipeline
 from load_model import load_model
 
-st.set_option("server.runOnSave", False)
+#st.set_option("server.runOnSave", False)
 
 @st.cache_resource
 def get_classifier():
